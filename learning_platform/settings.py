@@ -34,7 +34,6 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 DEBUG = os.getenv("DEBUG", 0)
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(" ")
-
 # Application definition
 
 INSTALLED_APPS = [

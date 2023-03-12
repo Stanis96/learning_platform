@@ -21,6 +21,7 @@ from django.urls import path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", include("service_parsing_data.urls")),
 ]
 
 if settings.DEBUG:

@@ -2,6 +2,8 @@ import requests
 
 from bs4 import BeautifulSoup
 
+from .data_to_db import save_data_to_db
+
 
 def get_all_pages() -> int:
     url: str = "https://codeforces.com/problemset/?order=BY_SOLVED_DESC"
@@ -49,13 +51,13 @@ def parse_data(number_page: int) -> list:
     return task_list
 
 
-def parse_all_pages() -> list:
+def parse_all_pages():
     pages = get_all_pages()
     task_list = []
     for page in range(1, pages):
         task_list += parse_data(page)
-    return task_list
+    save_data_to_db(task_list)
 
 
-if __name__ == "__main__":
-    parse_all_pages()
+# if __name__ == "__main__":
+#     parse_all_pages()
