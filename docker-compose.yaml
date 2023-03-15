@@ -2,18 +2,58 @@ version: "3"
 
 services:
 
-  postgres_db:
-    container_name: "postgres"
-    image: postgres:latest
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.10.7-management
     restart: always
-    environment:
-    - POSTGRES_USER=postgres
-    - POSTGRES_PASSWORD=postgres
-    - POSTGRES_DB=postgres
+    env_file:
+        - .env
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
+
+  django_app:
+    container_name: django_app
+    build: .
+    env_file:
+        - .env
+    command: bash -c "python manage.py migrate && gunicorn learning_platform_server.wsgi --bind 0.0.0.0:8000"
+    working_dir: /source/
+    volumes:
+        - .:/source/
+    ports:
+        - "8000:8000"
+    depends_on:
+        - postgres_db
+        - rabbitmq
+
+  celery:
+      container_name: celery
+      build: .
+      command: bash -c "celery -A learning_platform_server worker --loglevel=info -B"
+      working_dir: /source/
+      environment:
+          - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672//
+      volumes:
+          - .:/source/
+      depends_on:
+          - django_app
+          - rabbitmq
+
+  postgres_db:
+    container_name: postgres_db
+    image: postgres:latest
+    volumes:
+        - postgres_data:/var/lib/postgresql/data/
+    restart: always
+    env_file:
+    - .env
     ports:
       - "5432:5432"
-    networks:
-      - custom
-networks:
-  custom:
-    driver: bridge
+
+
+volumes:
+  rabbitmq:
+  postgres_data:

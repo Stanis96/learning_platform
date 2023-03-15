@@ -57,7 +57,3 @@ def parse_all_pages():
     for page in range(1, pages):
         task_list += parse_data(page)
     save_data_to_db(task_list)
-
-
-# if __name__ == "__main__":
-#     parse_all_pages()

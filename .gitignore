@@ -156,3 +156,5 @@ cython_debug/
 
 *.rdb
 *.identifier.sqlite
+
+rabbitmq/

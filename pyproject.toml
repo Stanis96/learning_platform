@@ -1,42 +1,41 @@
 [tool.poetry]
-name = "learning-platform"
+name = "learning-platform-server"
 version = "0.1.0"
 description = ""
 authors = ["Stanis96 <vasilievstas96@yandex.ru>"]
 readme = "README.md"
-packages = [{include = "learning_platform"}]
 
 
 [tool.poetry.dependencies]
 python = "^3.11"
-django = "^4.1.7"
+django = "4.1.7"
 psycopg2-binary = "2.9.5"
+gunicorn = "20.1.0"
+
 requests = "2.28.2"
 beautifulsoup4 = "4.11.2"
 
-python-dotenv = "^1.0.0"
-django-debug-toolbar = "^3.8.1"
-celery = "^5.2.7"
-
+python-dotenv = "1.0.0"
+django-debug-toolbar = "3.8.1"
+celery = "5.2.7"
 
 [tool.poetry.dev-dependencies]
 black = "23.1.0"
+isort = "5.12.0"
 
-isort = "^5.12.0"
+mypy = "1.1.1"
+types-requests = "2.28.11.15"
+types-beautifulsoup4 = "4.11.6.7"
 
-mypy = "^1.0.1"
-types-requests = "^2.28.11.15"
-types-beautifulsoup4 = "^4.11.6.7"
-
-flake8 = "<6.0.0"
+flake8 = "5.0.4"
 flake8-black = "0.3.6"
 flake8-builtins = "2.1.0"
 flake8-isort = "6.0.0"
 flake8-django = "1.1.5"
 
-dotenv-linter = "^0.4.0"
+dotenv-linter = "0.4.0"
 
-pre-commit = "^3.1.0"
+pre-commit = "3.1.1"
 
 
 [build-system]
@@ -63,4 +62,4 @@ show_error_codes = true
 python_version = 3.11
 warn_return_any = true
 warn_unused_configs = true
-exclude = ["migrations/", ".venv/", "learning_platform/",]
+exclude = ["migrations/", ".venv/", "learning_platform_server/",]
