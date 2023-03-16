@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "debug_toolbar",
     "service_parsing_data.apps.ServiceParsingDataConfig",
+    "bot.apps.BotConfig",
 ]
 
 MIDDLEWARE = [

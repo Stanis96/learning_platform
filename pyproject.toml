@@ -18,6 +18,7 @@ beautifulsoup4 = "4.11.2"
 python-dotenv = "1.0.0"
 django-debug-toolbar = "3.8.1"
 celery = "5.2.7"
+aiogram = "^2.25.1"
 
 [tool.poetry.dev-dependencies]
 black = "23.1.0"

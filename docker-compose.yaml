@@ -42,6 +42,17 @@ services:
           - django_app
           - rabbitmq
 
+  tg_bot:
+      container_name: tg_bot
+      build: .
+      env_file:
+          - .env
+      working_dir: /source/
+      command: python bot_run.py
+      depends_on:
+          - django_app
+          - postgres_db
+
   postgres_db:
     container_name: postgres_db
     image: postgres:latest
