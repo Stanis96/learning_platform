@@ -17,13 +17,13 @@ class Basic(BaseLogic):
 
     @staticmethod
     async def command_start(message: types.Message) -> None:
-        text = "Здравствуй, пользователь!\nВыбери фильтр для поиска нужной задачи!"
+        text = "Здравствуй, пользователь!\nЯ, LP Bot, помогу подобрать для тебя задачи!"
 
-        disclaimer = """
-Бот реализован для поиска задач с ресурса codeforces.\n
+        disclaimer = """Бот реализован для поиска задач.\n
+Ресурс: [Codeforces](https://codeforces.com/problemset?order=BY_SOLVED_DESC).\n
 📝Данный проект выполнен исключительно в учебных целях в рамках тестового задания.\n"""
         await message.reply(text)
-        await message.answer(disclaimer)
+        await message.answer(disclaimer, parse_mode="Markdown")
 
     @staticmethod
     async def command_help(message: types.Message) -> None:
