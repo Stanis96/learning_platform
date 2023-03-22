@@ -1,5 +1,3 @@
-import asyncio
-
 from aiogram import Dispatcher
 from aiogram import types
 from aiogram.dispatcher import FSMContext
@@ -22,6 +20,7 @@ class FilterTasks(BaseLogic):
     def _register(self, dp: Dispatcher) -> None:
         dp.register_message_handler(self.filter_start, commands="filter_start")
         dp.register_message_handler(self.filter_difficulty, state=FilterForm.topic)
+        dp.register_message_handler(self.filter_result, state=FilterForm.difficulty)
 
     @staticmethod
     async def filter_start(message: types.Message) -> None:
@@ -56,23 +55,21 @@ class FilterTasks(BaseLogic):
             await message.reply(text, reply_markup=markup)
             tasks = Tasks.objects.filter(
                 topic__topic=data["topic"], difficulty=int(data["difficulty"])
-            ).order_by("count_solved")[:10]
+            ).order_by("?")[:5]
             count = Tasks.objects.filter(
                 topic__topic=data["topic"], difficulty=int(data["difficulty"])
             ).count()
-
-            if not tasks.exists():
-                await message.reply("По вашему запросу задач нет.")
-            else:
-                for task in tasks:
-                    await message.reply(
-                        f"Номер: {task.number}\nНазвание: {task.title}\nСсылка: {task.link}\n"
-                        f"Количество решивших задачу: {task.count_solved}"
-                    )
-
-                if count > 10:
-                    await message.reply(
-                        f"Также, еще доступные задачи по вашему запросу: {count - 10}.\n"
-                        f" Хотите получить их?"
-                    )
-            await state.finish()
+        if not tasks.exists():
+            await message.reply("По вашему запросу задач нет.")
+        else:
+            for task in tasks:
+                await message.reply(
+                    f"Номер: {task.number}\nНазвание: {task.title}\nСсылка: {task.link}\n"
+                    f"Количество решивших задачу: {task.count_solved}"
+                )
+        await message.reply(
+            f"Я выбрал для вас 5 случайных задач по выбранным фильтрам.\n"
+            f"Всего нашлось: {count}\n"
+            f"Если хотите получить еще задачи - выполните поиск еще раз.\n"
+        )
+        await state.finish()
